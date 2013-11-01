@@ -11,59 +11,60 @@ if (!document.querySelectorAll) {
 
 function Cream(el) {
 
+    return new function() {
+        var elem = document.querySelectorAll(el),
+            newTings = document.addEventListener !== undefined;
 
+        this.events = {
+            'click': 'click',
+            'hover': 'mouseover'
+        };
 
-    var elem = document.querySelectorAll(el),
-        newTings = document.addEventListener !== undefined;
-
-    this.events = {
-        'click': 'click',
-        'hover': 'mouseover'
-    };
-
-    this.on = function(eventArr, cbArr) {
-        for(var i = 0; i < eventArr.length; i++) {
-            for(var j = 0; j < elem.length; j++) {
-                if(newTings) {
-                    elem[j].addEventListener(eventArr[i], cbArr[i]);
-                } else {
-                    elem[j].attachEvent('on'+eventArr[i], cbArr[i]);
+        this.on = function(eventArr, cbArr) {
+            for(var i = 0; i < eventArr.length; i++) {
+                for(var j = 0; j < elem.length; j++) {
+                    if(newTings) {
+                        elem[j].addEventListener(eventArr[i], cbArr[i]);
+                    } else {
+                        elem[j].attachEvent('on'+eventArr[i], cbArr[i]);
+                    }
                 }
             }
-        }
-    };
 
-    this.trigger = function(event) {
-        var ev;
-        if(newTings) {
-            ev = document.createEvent('HTMLEvents');
-            ev.initEvent(event, true, true);
-        } else {
-            ev = document.createEventObject();
-            ev.eventType = event;
-        }
+            return this;
+        };
 
-        ev.eventName = event;
-        ev.memo = {};
-
-        for(var j = 0; j < elem.length; j++) {
+        this.trigger = function(event) {
+            var ev;
             if(newTings) {
-                elem[j].dispatchEvent(ev);
+                ev = document.createEvent('HTMLEvents');
+                ev.initEvent(event, true, true);
             } else {
-                elem[j].fireEvent('on'+ event, ev);
+                ev = document.createEventObject();
+                ev.eventType = event;
             }
-        }
+
+            ev.eventName = event;
+            ev.memo = {};
+
+            for(var j = 0; j < elem.length; j++) {
+                if(newTings) {
+                    elem[j].dispatchEvent(ev);
+                } else {
+                    elem[j].fireEvent('on'+ event, ev);
+                }
+            }
+
+            return this;
+        };
     };
 }
 
-var click = new Cream('#click'),
-    hover = new Cream('#hover');
-
-click.on(['click', 'sample'], [function(ev) {
+var click = Cream('#click').on(['click', 'sample'], [function(ev) {
     console.log('click');
 }, function() { console.log('fired sample'); }]);
 
-hover.on(['mouseenter', 'mouseout', 'click'], [function(ev) {
+Cream('#hover').on(['mouseenter', 'mouseout', 'click'], [function(ev) {
     console.log('mouseenter');
 }, function(ev) {
     console.log('mouseout');
