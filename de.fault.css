@@ -1,0 +1,79 @@
+/*Rst*/
+
+    * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+
+    .clearfix:after {
+        content: ".";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+    }
+    
+    article, hgroup, section, p {
+        display: block;
+    }
+    
+    img { vertical-align: middle; }
+    a   { cursor: pointer; }
+    em { font-style: italic; }
+    b { font-weight: 700; }
+
+/*Ping*/
+
+    * {
+        -webkit-font-smoothing: antialiased;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding-box;
+        background-clip: padding-box;
+    }
+
+    html, body {
+        width: 100%;
+        color: #333;
+        font: normal 15px/1.5 Helvetica Neue, Helvetica, Arial;
+        background: #FFFAEB;
+    }
+
+    a { color: #333;}
+    p { line-height: 1.5em; }
+    button { background: #FFECB2; color: #E5B426; padding: 5px 10px; margin: 0 5px 0 0; border-radius: 5px; }
+
+    header {
+        width: 100%;
+        height: 5em;
+        background: #FFECB2;
+    }
+
+    header section h1 { float: left; font-size: 3em; line-height: 1.5em; }
+    header section a { float: right; margin: 0 10px 0 0; }
+
+    section {
+        width: 600px;
+        margin: 0 auto;
+    }
+
+    section h2 {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 1em 0 0.5em;
+    }
+
+    #log {
+        white-space: pre;
+        background: #FFF4D4;
+        color: #E5B426;
+        font-family: monospace;
+        min-height: 1em;
+        margin: 1em 0;
+        padding: 15px 0 15px 15px;
+    }
+
