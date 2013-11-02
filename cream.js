@@ -74,16 +74,36 @@ function Cream(el) {
     };
 }
 
+var log = function(line) {
+    var logger = document.getElementById('log');
+
+    logger.innerHTML = logger.innerHTML + "\r\n"+ '> '+ line;
+}
+
 var click = Cream('#click').on(['click', 'sample'], [function(ev) {
-    console.log('click');
-}, function() { console.log('fired sample'); }]);
+    log('click');
+}, function() {
+    log('fired sample');
+
+    var buttonSample = this;
+
+    buttonSample.innerHTML = 'Boom';
+
+    setTimeout(function() {
+        buttonSample.innerHTML = 'Click';
+    }, 2000);
+}]);
 
 Cream('#hover').on(['mouseenter', 'mouseout', 'click'], [function(ev) {
-    console.log('mouseenter');
+    log('mouseenter');
+    this.innerHTML = 'Click to fire custom event';
 }, function(ev) {
-    console.log('mouseout');
+    log('mouseout');
 }, function(ev) {
+
+    this.innerHTML = 'Hover';
+
     click.trigger('sample');
 
-    click.off(['sample']);
+    //click.off(['sample']);
 }]);
