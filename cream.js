@@ -15,24 +15,38 @@ function Cream(el) {
         var elem = document.querySelectorAll(el),
             newTings = document.addEventListener !== undefined;
 
-        this.events = {
-            'click': 'click',
-            'hover': 'mouseover'
-        };
+        this.handles = {};
 
         this.on = function(eventArr, cbArr) {
             for(var i = 0; i < eventArr.length; i++) {
                 for(var j = 0; j < elem.length; j++) {
                     if(newTings) {
-                        elem[j].addEventListener(eventArr[i], cbArr[i]);
+                        elem[j].addEventListener(eventArr[i], cbArr[i], false);
                     } else {
                         elem[j].attachEvent('on'+eventArr[i], cbArr[i]);
                     }
+                    this.handles[elem[j]+'-'+eventArr[i]] = cbArr[i];
                 }
             }
 
             return this;
         };
+
+        this.off = function(eventArr) {
+            for(var i = 0; i < eventArr.length; i++) {
+                for(var j = 0; j < elem.length; j++) {
+                    if(this.handles[elem[j]+'-'+eventArr[i]]) {
+                        if(newTings) {
+                            elem[j].removeEventListener(eventArr[i], this.handles[elem[j]+'-'+eventArr[i]], false);
+                        } else {
+                            elem[j].detachEvent('on'+eventArr[i], this.handles[elem[j]+'-'+eventArr[i]], false);
+                        }
+
+                        // delete this.handles[elem[j]+'-'+eventArr[i]].
+                    }
+                }
+            }            
+        }
 
         this.trigger = function(event) {
             var ev;
@@ -70,4 +84,6 @@ Cream('#hover').on(['mouseenter', 'mouseout', 'click'], [function(ev) {
     console.log('mouseout');
 }, function(ev) {
     click.trigger('sample');
+
+    click.off(['sample']);
 }]);
