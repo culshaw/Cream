@@ -11,6 +11,9 @@ if (!document.querySelectorAll) {
 
 function Cream(el) {
 
+    /**
+     * @constructor
+     */
     return new function() {
         var elem = document.querySelectorAll(el),
             newTings = document.addEventListener !== undefined;
@@ -46,7 +49,7 @@ function Cream(el) {
                     }
                 }
             }            
-        }
+        };
 
         this.trigger = function(event) {
             var ev;
@@ -94,16 +97,12 @@ var click = Cream('#click').on(['click', 'sample'], [function(ev) {
     }, 2000);
 }]);
 
-Cream('#hover').on(['mouseenter', 'mouseout', 'click'], [function(ev) {
+Cream('#hover').on(['mouseenter', 'mouseout'], [function(ev) {
     log('mouseenter');
-    this.innerHTML = 'Click to fire custom event';
 }, function(ev) {
     log('mouseout');
-}, function(ev) {
+}]);
 
-    this.innerHTML = 'Hover';
-
+Cream('#trigger').on(['click'], [function(ev) {
     click.trigger('sample');
-
-    //click.off(['sample']);
 }]);
